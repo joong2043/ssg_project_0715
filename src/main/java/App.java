@@ -21,11 +21,9 @@ public class App {
         while (true){
             System.out.printf("명령) ");
             String cmd = sc.nextLine();
-            String[] cmdBits = cmd.split("//?",2);
-            String path = cmdBits[0];
-            String queryStr = cmdBits.length==2?cmdBits[1] : null;
+            Rq rq = new Rq(cmd);
 
-            switch (path){
+            switch (rq.getPath()){
                 case "등록":
                     write();
                     break;
@@ -35,7 +33,7 @@ public class App {
                     break;
 
                 case "삭제":
-                    remove(queryStr);
+                    remove(rq);
                     break;
 
                 case "종료":
@@ -63,11 +61,20 @@ public class App {
         wiseSayingStream.forEach(element -> System.out.print(element));
     }
 
-    void remove(String queryStr){
-        System.out.println("명언을 삭제한다. ");
+    private void remove(Rq rq){
+
+        int id = rq.getIntParam("id",0);
+
+        if(id==0){
+            System.out.println("삭제할 id를 입력해주세요.");
+            return;
+        }
+
+        wiseSayings.remove(id+1);
 
         lastId--;
+        System.out.printf("%d번 명언을 삭제합니다. \n",id);
+
 
     }
 }
-
