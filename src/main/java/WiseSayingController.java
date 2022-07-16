@@ -16,6 +16,7 @@ public class WiseSayingController {
         this.sc = sc;
     }
 
+    WiseSayingService wiseSayingService = new WiseSayingService(wiseSayings);
     void write(){
         lastId++;
         System.out.printf("명언 : ");
@@ -24,15 +25,15 @@ public class WiseSayingController {
         String author = sc.nextLine();
 
         WiseSaying addWiseSaying = new WiseSaying(lastId,content,author);
-        wiseSayings.add(addWiseSaying);
+
+        wiseSayingService.addFunction(addWiseSaying);
         System.out.println(addWiseSaying);
     }
     void list(){
         System.out.println("===명언 목록===");
         System.out.println("번호 / 명언 / 작가");
-        Stream<WiseSaying> wiseSayingStream = wiseSayings.stream();
-        wiseSayingStream.forEach(element -> System.out.print(element));
-    }
+        wiseSayingService.listFunction(wiseSayings);
+
 
     public void remove(Rq rq){
 
