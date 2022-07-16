@@ -36,6 +36,10 @@ public class App {
                     remove(rq);
                     break;
 
+                case "수정":
+                    modify(rq);
+                    break;
+
                 case "종료":
                     break outer;
 
@@ -70,11 +74,34 @@ public class App {
             return;
         }
 
-        wiseSayings.remove(id+1);
+        wiseSayings.remove((id-1));
 
         lastId--;
-        System.out.printf("%d번 명언을 삭제합니다. \n",id);
+        System.out.printf("%d번 명언을 삭제합니다. \n",(id));
 
 
     }
+
+    void modify(Rq rq) {
+        int id = rq.getIntParam("id",0);
+
+        if(id==0){
+            System.out.println("수정할 id를 입력해주세요.");
+            return;
+        }
+
+        WiseSaying modifyWiseSaying = wiseSayings.get(id-1);
+
+        System.out.printf("명언(기존) : %s\n",modifyWiseSaying.content);
+        System.out.printf("명언 : ");
+        String content = sc.nextLine();
+        modifyWiseSaying.content = content;
+
+        System.out.printf("작가(기존) : %s\n",modifyWiseSaying.author);
+        System.out.printf("작가 : ");
+        String author = sc.nextLine();
+        modifyWiseSaying.author=author;
+
+    }
+
 }
