@@ -16,7 +16,9 @@ public class WiseSayingController {
         this.sc = sc;
     }
 
-    WiseSayingService wiseSayingService = new WiseSayingService(wiseSayings);
+    WiseSayingService wiseSayingService = new WiseSayingService();
+
+
     void write(){
         lastId++;
         System.out.printf("명언 : ");
@@ -24,16 +26,19 @@ public class WiseSayingController {
         System.out.printf("작가 : ");
         String author = sc.nextLine();
 
+
         WiseSaying addWiseSaying = new WiseSaying(lastId,content,author);
 
         wiseSayingService.addFunction(addWiseSaying);
         System.out.println(addWiseSaying);
     }
-    void list(){
+
+    void list() {
         System.out.println("===명언 목록===");
         System.out.println("번호 / 명언 / 작가");
-        wiseSayingService.listFunction(wiseSayings);
+        wiseSayingService.listFunction();
 
+    }
 
     public void remove(Rq rq){
 
@@ -44,7 +49,7 @@ public class WiseSayingController {
             return;
         }
 
-        wiseSayings.remove((id-1));
+        wiseSayingService.removeFunction((id));
 
         lastId--;
         System.out.printf("%d번 명언을 삭제합니다. \n",(id));
@@ -52,7 +57,7 @@ public class WiseSayingController {
 
     }
 
-    void modify(Rq rq) {
+    public void modify(Rq rq) {
         int id = rq.getIntParam("id",0);
 
         if(id==0){
@@ -60,17 +65,17 @@ public class WiseSayingController {
             return;
         }
 
-        WiseSaying modifyWiseSaying = wiseSayings.get(id-1);
+        WiseSaying modifyWiseSaying = wiseSayingService.find(id);
 
         System.out.printf("명언(기존) : %s\n",modifyWiseSaying.content);
         System.out.printf("명언 : ");
         String content = sc.nextLine();
-        modifyWiseSaying.content = content;
 
         System.out.printf("작가(기존) : %s\n",modifyWiseSaying.author);
         System.out.printf("작가 : ");
         String author = sc.nextLine();
-        modifyWiseSaying.author=author;
+
+        wiseSayingService.modifyFunction(id,content,author);
 
     }
 
